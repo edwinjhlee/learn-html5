@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>获取本地图片尺寸</title>
+  <meta name="description" content="获取本地图片尺寸">
+  <meta name="author" content="duixng.org">
+
+</head>
+<body>
+    <input type="file" multiple onchange="handleFiles(this.files)">
+    <img src="" alt="" id="sigma">
+    <script>
+    function handleFiles(files) {
+        for (i = 0; i < files.length; i++) {
+            file = files[i]
+            console.log(file)
+            var reader = new FileReader();// Browser API :http://caniuse.com/#search=FileReader
+            ret = []
+            reader.onload = function(theFile) {
+                var image = new Image();
+
+                image.onload = function() {
+                    // access image size here
+                    console.log( this.width, this.height);
+
+                    document.querySelector('#sigma').setAttribute('src', this.src);
+                };
+                image.src = theFile.target.result;
+            }
+            reader.onerror = function(stuff) {
+                console.log("error", stuff)
+                console.log(stuff.getMessage())
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+    </script>
+</body>
+</html>
